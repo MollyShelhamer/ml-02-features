@@ -21,85 +21,143 @@ to get the example projects running on your machine.
 
 ## Phase 4. Technical Modification
 
-Describe your small technical modification to the example project.
+### Adding body_mass_kg Feature
 
-Include:
+**What changed:**
+Added a fourth derived feature, `body_mass_kg`, to the feature construction section. This feature rescales the penguin body mass from grams to kilograms by dividing `body_mass_g` by 1000.
 
-- What you changed
-- Why you chose that change
-- How you verified that it worked
-- What result, output, chart, metric, or behavior confirmed the change
+**Why this change:**
+- The original example only demonstrated three features. Adding a unit-conversion
+  feature demonstrates practical data preprocessing—converting raw measurements to
+  more interpretable units without leaking information.
+- Kilograms is a more conventional unit for reporting mass, improving model
+  interpretability.
+- This transformation is linear and monotonic, so it preserves all information
+  content while improving human readability of model coefficients.
 
-Compared with the example project,
-explain what is different and why the change matters.
+**How it was verified:**
+The feature was added to the feature construction pipeline alongside bill_ratio
+and flipper_cm. The new feature was included in the `new_cols` list and logged by
+the logger, confirming it was created and tracked correctly.
 
-Was it easy, or surprisingly challenging and why do you think so?
+**Result:**
+The modification was straightforward and easy to implement—a simple division
+operation. The notebook continues to run successfully, and the new feature appears
+in the constructed feature set without errors. The feature contributes a rescaled
+version of a numeric attribute that could help models learn at an appropriate scale.
 
 ## Phase 5. Custom Project
 
-Describe your custom project and how you made your modeling decisions.
+### Multi-Dimensional Feature Visualization
 
-Be specific about what changed from the example project.
+This phase extends the example project by adding a creative, multi-dimensional visualization that explores relationships between the constructed features.
 
 ### Basis and Data
 
-Describe the dataset, input, or example you started with.
+**Original dataset:**
+The Seaborn penguins dataset, containing measurements of 344 penguin specimens
+across three species with numeric attributes (flipper length, bill measurements,
+body mass) and categorical features (species, island, sex).
 
-Include:
+**Why kept:**
+The penguins dataset is ideal for feature engineering because it includes diverse
+measurement types (shape ratios, size scales, and continuous targets) that
+demonstrate different feature construction techniques in a single, interpretable
+domain.
 
-- The original example dataset or input
-- The data source
-- Why you chose it, kept it, or changed it
-- Any important limitations or assumptions
+**Data limitations:**
+The dataset is relatively small (344 rows) and may not capture all biological
+variation in penguin populations. Some measurements contain missing values that are
+handled through pandas operations but could affect downstream model training.
 
 ### Modeling Approach
 
-Describe the problem type and modeling approach for this project.
+**Problem type:**
+This remains a **supervised regression problem**—predicting `body_mass_g`
+(numeric target) from input features.
 
-Include:
+**Visualization approach:**
+Rather than jumping directly to model fitting, Phase 5 adds exploratory feature visualization to understand:
+- How constructed features correlate with each other
+- Whether feature interactions are apparent
+- How the categorical grouping (size_class) relates to continuous features
 
-- Is this supervised or unsupervised and how do you know
-- Is this classification, regression, clustering, recommendation, forecasting, or another type of ML task
-- What kind of target works well for this approach
-- Why your selected model or method is appropriate
+This follows the ML principle of understanding your data before modeling.
 
-### Target
+### Features Extended
 
-Describe the example target variable.
+**Example features:**
+- bill_ratio: bill_length_mm / bill_depth_mm (shape)
+- flipper_cm: flipper_length_mm / 10.0 (size, rescaled)
+- size_class: binned flipper_length into three categories
 
-Then describe your chosen target variable.
+**Added feature:**
+- body_mass_kg: body_mass_g / 1000.0 (target rescaled to interpretable units)
 
-Explain how your target choice changes the modeling approach, interpretation, or evaluation.
+**Why these changes:**
+Adding body_mass_kg provides the feature space visualization with a fourth,
+interpretable dimension. The constructed features represent different data types:
+dimensionless ratios, rescaled continuous values, and categorical bins—demonstrating
+the breadth of feature engineering techniques.
 
-### Features
+### Visualization and Results
 
-Describe the example features.
+**Creative visualization—Multi-Dimensional Bubble Chart:**
 
-Then describe the features you used to predict your target.
+Created a bubble chart saved to `data/processed/penguin_feature_space.png` that simultaneously displays:
 
-Explain what you changed, added, removed, or kept and why.
+- **X-axis:** bill_ratio (shape characteristic, unitless)
+- **Y-axis:** flipper_cm (size in centimeters)
+- **Bubble size:** body_mass_kg (target variable, proportional to area)
+- **Color:** size_class (small=red, medium=teal, large=blue)
 
-### Evaluation and Results
+**Main findings:**
+- Clear clustering by size_class: larger penguins (blue) occupy the upper region
+  with higher flipper_cm
+- Body mass correlates strongly with flipper length (evident from bubble size
+  increasing upward)
+- Bill ratio varies more independently, suggesting it captures distinct shape
+  variation not captured by size alone
+- The visualization confirms that constructed features convey meaningful,
+  non-redundant information about penguin morphology
 
-Describe how you evaluated your model.
+**Technical implementation:**
+- Used matplotlib scatter plot with dynamic sizing and colors
+- Saved at 300 dpi for publication quality
+- Output stored in `data/processed/` for artifact tracking
 
-Include:
-
-- The metric or evidence you used
-- The main result
-- Whether the result was useful, interesting, surprising, or disappointing
-- Any weakness, limitation, or next improvement
+![alt text](image.png)
 
 ### Summary
 
-Summarize your custom project.
+**Implementation:**
+Extended the example notebook by adding a fourth feature (`body_mass_kg`) and
+creating a publication-quality multi-dimensional visualization that reveals feature
+relationships and guides modeling decisions.
 
-Include:
+**Results:**
+The visualization clearly demonstrates that the four constructed features capture
+distinct aspects of penguin morphology and size, providing confidence that they
+could be useful for predictive modeling.
 
-- How you implemented your custom model
-- What results you got
-- What you learned
-- How well you exercised the skills covered in this project
-- What kinds of real problems you could apply these skills to in the future
+**What was learned:**
+- Feature engineering requires both domain understanding and exploratory data
+  analysis
+- Visualization helps validate feature quality before model training
+- Dimensionality reduction through visualization (showing 4+ dimensions
+  simultaneously) can reveal patterns hidden in summary statistics
+
+**Skills exercised:**
+- Feature construction from raw measurements (ratios, rescaling, binning)
+- Multi-dimensional data visualization and design
+- Output artifact management (saving processed data)
+- Scientific communication through charts
+
+**Real-world application:**
+These techniques apply to any morphological or measurement data:
+- Biometric analysis (height/weight ratios in human health studies)
+- Manufacturing quality control (dimension ratios and tolerances)
+- Environmental monitoring (normalized sensor readings and categorical
+  classifications)
 
 Display at least one image or screenshot showing your work.
