@@ -32,6 +32,7 @@ See [docs/your-files.md] for more.
 Links:
 
 - [ml_02_case.ipynb](notebooks/ml_02_case.ipynb)
+- [ml_02_shelhamer.ipynb](notebooks/ml_02_shelhamer.ipynb)
 
 ## Working Files
 
