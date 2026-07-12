@@ -110,3 +110,4 @@ max         59.600000      21.500000         231.000000  6300.000000
 2026-07-12 00:07:14 | INFO | M02 | After features:   11
 2026-07-12 00:07:14 | INFO | M02 | Intended target:  body_mass_g
 2026-07-12 00:07:14 | INFO | M02 | ========================
+2026-07-12 00:16:31 | INFO | M02 | Creative visualization saved to: data\processed\penguin_feature_space.png
